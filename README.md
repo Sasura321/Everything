@@ -1,4 +1,4 @@
-## MyEverything
+# MyEverything
 
 ### 目标：搭建项目
 1. 创建maven项目
@@ -90,8 +90,3 @@ Thing （name，path，depth，fileType）
 #### 优化
 1. 数据库优化（索引-> 索引的特点，创建原则）
 2 .代码优化
-
-
-
-"# Everything" 
-"# Everything" 
