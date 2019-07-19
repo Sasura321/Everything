@@ -27,22 +27,27 @@ MyEverything
     + everything_config.peroperties
 + 解压程序发布包
 + 参考如下说明，配置文件
-```
+
+```java
 // 最大检索返回结果数
 everything.max_return = 40
+
 // 是否开启构建索引
 everything.enable_build_index = false
+
 // 检索时depth深度的排序规则
 everything.order_by_desc = dalse
+
 // 文件监控的时间间隔
 everything.interval = 60000
-// 索引目录
+
 // 索引排除目录
 everything.handle_path.exclude_path = C:\\Windows;C:\\$Recycle.Bin
+
 // 索引包含目录
 everything.handle_path.include_path = C:\\;D:\\;E:\\;F:\\
-
 ```
+
 + 启动程序
 ```
 java -jar MyEverything-1.0.0.jar [配置文件路径]
