@@ -132,6 +132,6 @@ public class EverythingCmdApplication {
             }
         }
 
-        System.out.println(config);
+        //System.out.println(config);
     }
 }

@@ -18,7 +18,7 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
 
     private final FileIndexDao fileIndexDao;
 
-    public FileMonitorImpl(FileIndexDao fileIndexDao){
+    public FileMonitorImpl(FileIndexDao fileIndexDao) {
         this.fileIndexDao = fileIndexDao;
         this.monitor = new FileAlterationMonitor(
                 EverythingConfig.getInstance().getInterval()
@@ -47,11 +47,10 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
                     }
                 }
                 return true;
-            });//要监控的目录
+            }); //要监控的目录
 
             observer.addListener(this);//监听，当前对象
             this.monitor.addObserver(observer);
-
         }
 
     }
@@ -62,7 +61,6 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         System.out.println("onDirectoryCreate: "+directory.getAbsolutePath());
 
         this.fileIndexDao.insert(FileConverThing.convert(directory));
-
     }
 
     @Override
@@ -70,7 +68,6 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         System.out.println("onDirectoryDelete: "+directory.getAbsolutePath());
 
         this.fileIndexDao.insert(FileConverThing.convert(directory));
-
     }
 
     @Override
@@ -78,7 +75,6 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         System.out.println("onFileCreate: "+file.getAbsolutePath());
 
         this.fileIndexDao.insert(FileConverThing.convert(file));
-
     }
 
     @Override
@@ -86,7 +82,6 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         System.out.println("onFileDelete: "+file.getAbsolutePath());
 
         this.fileIndexDao.insert(FileConverThing.convert(file));
-
     }
 
     @Override

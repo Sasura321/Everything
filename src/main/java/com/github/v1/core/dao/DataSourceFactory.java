@@ -21,12 +21,12 @@ public class DataSourceFactory {
 
     private DataSourceFactory() {}
 
+    // 数据库连接配置
     public static DataSource getInstance() {
         if(instance == null) {
             synchronized (DataSource.class) {
                 if(instance == null) {
                     instance = new DruidDataSource();
-                    //instance.setUrl("jdbc:mysql://127.0.0.1:3306/MyEverything");
 
                     //这是连接MySQL的配置
 //                    instance.setUrl("jdbc:mysql://localhost:3306/MyEverything?useUnicode=true&characterEncoding=utf-8&useSSL=false");
@@ -40,7 +40,7 @@ public class DataSourceFactory {
                     String path = System.getProperty("user.dir")+File.separator+"MyEverything";
                     instance.setUrl("jdbc:h2:"+path);
 
-                    //数据库创建表完成之后，初始化表结构
+                    //数据库创建完成之后，初始化表结构
                     databaseInit(false);
                 }
             }
@@ -48,6 +48,7 @@ public class DataSourceFactory {
         return instance;
     }
 
+    // 初始化表结构
     public static void databaseInit(boolean buildIndex) {
         StringBuffer sb = new StringBuffer();
 
@@ -55,7 +56,7 @@ public class DataSourceFactory {
             InputStream in = DataSourceFactory.class.getClassLoader().getResourceAsStream("database.sql");
         ){
             if(in != null) {
-                try(BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                     String line = null;
                     while((line = reader.readLine()) != null) {
                         sb.append(line);
@@ -72,8 +73,8 @@ public class DataSourceFactory {
             e.printStackTrace();
         }
 
+        // 将字符数组转换为字符串
         String sql = sb.toString();
-
         try(Connection connection = getInstance().getConnection();
         ) {
             if(buildIndex) {
@@ -89,7 +90,6 @@ public class DataSourceFactory {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            //statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

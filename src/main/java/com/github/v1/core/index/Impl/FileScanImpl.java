@@ -30,6 +30,7 @@ public class FileScanImpl implements FileScan {
             }
         }
 
+        // 判断路径是否是文件夹
         File file = new File(path);
         if (file.isDirectory()) {
             File[] files = file.listFiles();

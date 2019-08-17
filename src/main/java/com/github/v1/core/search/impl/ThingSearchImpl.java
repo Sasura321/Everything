@@ -34,12 +34,13 @@ public class ThingSearchImpl implements ThingSearch {
 
     @Override
     public List<Thing> search(Condition condition) {
-        //BUG
         List<Thing> things = this.fileIndexDao.query(condition);
         Iterator<Thing> iterator = things.iterator();
+
         while(iterator.hasNext()){
             Thing thing = iterator.next();
             File file = new File(thing.getPath());
+
             //如果文件不存在
             if(!file.exists()) {
                 iterator.remove(); // 删除

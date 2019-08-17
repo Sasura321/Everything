@@ -28,6 +28,10 @@ public class FileIndexDaoImpl  implements FileIndexDao{
         this.dataSource = dataSource;
     }
 
+    /**
+     * 插入
+     * @param thing
+     */
     @Override
     public void insert(Thing thing) {
         //JDBC操作
@@ -45,18 +49,18 @@ public class FileIndexDaoImpl  implements FileIndexDao{
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             releaseResource(null,statement,connection);
         }
     }
 
+    /**
+     * 删除
+     * @param thing
+     */
     @Override
     public void delete(Thing thing) {
-        /**
-         * thing -> path => D:\a\b\hello.java
-         * thing -> path => D:\a\b
-         *                  D:\a\ba
-         * like path%
+        /*
          * = 最多删除一个，绝对匹配
          */
         Connection connection = null;
@@ -75,6 +79,11 @@ public class FileIndexDaoImpl  implements FileIndexDao{
         }
     }
 
+    /**
+     * 查询
+     * @param condition
+     * @return
+     */
     @Override
     public List<Thing> query(Condition condition) {
         List<Thing> things = new ArrayList<>();
@@ -86,10 +95,8 @@ public class FileIndexDaoImpl  implements FileIndexDao{
             StringBuilder sb = new StringBuilder();
             sb.append("select name,path,depth,file_type from thing");
             sb.append(" where ");
+
             //采用模糊匹配
-            //前迷糊
-            //后模糊
-            //前后模糊
             sb.append(" name like '").append(condition.getName()).append("%'");
             //search<name> [file_type]
             if(condition.getFileType() != null){

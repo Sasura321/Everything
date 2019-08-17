@@ -8,7 +8,7 @@ import com.github.v1.core.model.Thing;
 import java.io.File;
 
 /**
- * FileIndexInterceptor：将Filie转换为Thing然后写入数据库（拦截器）
+ * FileIndexInterceptor：将File转换为Thing然后写入数据库（拦截器）
  * Author: zsm
  * Created: 2019/4/2
  */

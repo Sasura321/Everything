@@ -25,6 +25,7 @@ public enum FileType {
         this.extend.addAll(Arrays.asList(extend));
     }
 
+    // 通过扩展名查找文件
     public static FileType lookupByExtend(String extend) {
         for(FileType fileType : FileType.values()) {
             if(fileType.extend.contains(extend)) {
@@ -34,6 +35,7 @@ public enum FileType {
         return FileType.OTHER;
     }
 
+    // 通过文件名称查找文件
     public static FileType lookupByName(String name) {
         for(FileType fileType : FileType.values()) {
             if(fileType.name().equals((name))) {
