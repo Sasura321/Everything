@@ -85,9 +85,15 @@ public class EverythingCmdApplication {
 
     }
 
+    /**
+     * 处理配置项
+     * @param p
+     */
     private static void everythingConfigInit(Properties p) {
         EverythingConfig config = EverythingConfig.getInstance();
+        // 最大检索返回结果数
         String maxreturn = p.getProperty("everything.max_return");
+        // 文件监控的时间间隔
         String interval = p.getProperty("everything.interval");
         try {
             if (interval != null){
@@ -99,13 +105,16 @@ public class EverythingCmdApplication {
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
+
+        // 默认关闭构建索引
         String enableBuildIndex = p.getProperty("everything.enable_build_index");
         config.setEnableBuildIndex(Boolean.parseBoolean(enableBuildIndex));
 
+        // 检索时depth深度的排序规则为降序
         String orderByDesc = p.getProperty("everything.order_by_desc");
         config.setOrderByDesc(Boolean.parseBoolean(orderByDesc));
 
-        //处理的目录
+        //处理要包含的目录
         String includePaths = p.getProperty("everything.handle_path.include_path");
         if (includePaths != null){
 
@@ -119,6 +128,7 @@ public class EverythingCmdApplication {
             }
         }
 
+        // 处理排除目录
         String excludePaths = p.getProperty("everything.handle_path.exclude_path");
         if (excludePaths != null){
 
@@ -131,7 +141,5 @@ public class EverythingCmdApplication {
                 }
             }
         }
-
-        //System.out.println(config);
     }
 }

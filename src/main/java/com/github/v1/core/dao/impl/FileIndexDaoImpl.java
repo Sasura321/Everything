@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FileIndexDaoImpl:
+ * FileIndexDaoImpl: 数据库的增删改查操作
  * Author: zsm
  * Created: 2019/4/2
  */
@@ -30,26 +30,32 @@ public class FileIndexDaoImpl  implements FileIndexDao{
 
     /**
      * 插入
-     * @param thing
+     * @param thing thing对象
      */
     @Override
     public void insert(Thing thing) {
         //JDBC操作
         Connection connection = null;
         PreparedStatement statement = null;
+
         try {
+            // 获取连接
             connection = this.dataSource.getConnection();
+            // 执行SQL
             String sql = "insert into thing(name,path,depth,file_type) values(?,?,?,?)";
             statement = connection.prepareStatement(sql);
+
             //预编译命令中SQL的占位符赋值
             statement.setString(1,thing.getName());
             statement.setString(2,thing.getPath());
             statement.setInt(3,thing.getDepth());
             statement.setString(4,thing.getFileType().name());
             statement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            // 关闭连接
             releaseResource(null,statement,connection);
         }
     }
@@ -69,12 +75,15 @@ public class FileIndexDaoImpl  implements FileIndexDao{
             connection = this.dataSource.getConnection();
             String sql = "delete from thing where path = ?";
             statement = connection.prepareStatement(sql);
+
             //预编译命令中SQL的占位符赋值
             statement.setString(1,thing.getPath());
             statement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
+            // 关闭连接
             releaseResource(null,statement,connection);
         }
     }
@@ -90,6 +99,7 @@ public class FileIndexDaoImpl  implements FileIndexDao{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
+
         try {
             connection = this.dataSource.getConnection();
             StringBuilder sb = new StringBuilder();
@@ -98,16 +108,20 @@ public class FileIndexDaoImpl  implements FileIndexDao{
 
             //采用模糊匹配
             sb.append(" name like '").append(condition.getName()).append("%'");
+
             //search<name> [file_type]
             if(condition.getFileType() != null){
                 FileType fileType = FileType.lookupByName(condition.getFileType());
                 sb.append(" and file_type='"+fileType.name()+"'");
             }
+
+            // 文件升序还是降序
             sb.append(" order by depth").append(condition.getOrderByDepthAsc()?" asc":" desc");
             sb.append(" limit ").append(condition.getLimit());
 
             statement = connection.prepareStatement(sb.toString());
             resultSet = statement.executeQuery();
+
             //处理结果
             while(resultSet.next()){
                 Thing thing = new Thing();
@@ -118,9 +132,11 @@ public class FileIndexDaoImpl  implements FileIndexDao{
 
                 things.add(thing);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
+            // 关闭连接
             releaseResource(resultSet,statement,connection);
         }
         return things;
@@ -129,26 +145,30 @@ public class FileIndexDaoImpl  implements FileIndexDao{
     /**
      * 重构
      * 在不改变程序的功能和业务的前提下，对代码进行优化，是的代码更易阅读和扩展
+     * @param resultSet
+     * @param statement
+     * @param connection
      */
     private void releaseResource(ResultSet resultSet,PreparedStatement statement,Connection connection){
-        if(resultSet != null){
+        // 结果集不为空，关闭
+        if (resultSet != null) {
             try {
                 resultSet.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        if(statement != null){
+
+        //
+        if (statement != null) {
             try {
-                //???
                 statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        if(connection != null){
+        if (connection != null) {
             try {
-                //???
                 connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();

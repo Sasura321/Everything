@@ -13,16 +13,16 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * ThingSearchImpl:
+ * ThingSearchImpl:文件检索业务
  * Author: zsm
  * Created: 2019/4/2
  */
 
 public class ThingSearchImpl implements ThingSearch {
 
-    private final FileIndexDao fileIndexDao;
+    private final FileIndexDao fileIndexDao; // 文件索引
 
-    private final ThingClearInterceptor interceptor;
+    private final ThingClearInterceptor interceptor; // 拦截器对象
 
     private final Queue<Thing> thingQueue = new ArrayBlockingQueue<Thing>(1024);
 
@@ -32,6 +32,11 @@ public class ThingSearchImpl implements ThingSearch {
         this.backgroundClearThread();
     }
 
+    /**
+     * 根据condition条件检索数据
+     * @param  condition
+     * @return
+     */
     @Override
     public List<Thing> search(Condition condition) {
         List<Thing> things = this.fileIndexDao.query(condition);
@@ -51,6 +56,9 @@ public class ThingSearchImpl implements ThingSearch {
         return things;
     }
 
+    /**
+     * 后台清理线程，设置成为守护线程
+     */
     private void backgroundClearThread() {
         // 进行一个后台清理操作
         Thread thread = new Thread(this.interceptor);

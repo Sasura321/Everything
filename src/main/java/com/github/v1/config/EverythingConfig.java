@@ -1,8 +1,6 @@
 package com.github.v1.config;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * EverythingConfig：配置信息
@@ -10,7 +8,7 @@ import lombok.ToString;
  * Created: 2019/4/3
  */
 
-@ToString
+@Data
 public class EverythingConfig {
 
     private static volatile EverythingConfig config;
@@ -18,15 +16,11 @@ public class EverythingConfig {
     /**
      * 索引目录
      */
-    @Getter
-    @Setter
     private Handlerpath handlerpath = Handlerpath.getDefaultHandlerPath();
 
     /**
      * 最大检索返回的结果数
      */
-    @Getter
-    @Setter
     private Integer maxReturn = 30;
 
     /**
@@ -35,8 +29,6 @@ public class EverythingConfig {
      * 1.运行程序时，指定参数
      * 2.通过功能命令 index
      */
-    @Getter
-    @Setter
     private Boolean enableBuildIndex = false;
 
     /**
@@ -45,21 +37,17 @@ public class EverythingConfig {
      * false：表示升序
      * 默认：降序
      */
-    @Getter
-    @Setter
     private Boolean orderByDesc = false;
 
     /**
      * 文件监控时间
      */
-    @Setter
-    @Getter
     private Integer interval = 6000 * 10;
 
-    private EverythingConfig(){
+    // 构造方法
+    private EverythingConfig(){}
 
-    }
-
+    // 获取配置信息的方法
     public static EverythingConfig getInstance(){
         if (config == null){
             synchronized (EverythingConfig.class){

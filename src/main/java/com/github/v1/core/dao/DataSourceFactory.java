@@ -52,9 +52,10 @@ public class DataSourceFactory {
     public static void databaseInit(boolean buildIndex) {
         StringBuffer sb = new StringBuffer();
 
+        // 加载数据库配置信息
         try (
             InputStream in = DataSourceFactory.class.getClassLoader().getResourceAsStream("database.sql");
-        ){
+        ) {
             if(in != null) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
                     String line = null;
@@ -66,6 +67,7 @@ public class DataSourceFactory {
                 }
 
             } else {
+                // 若无法加载数据库配置信息，抛出异常提示没有找到
                 throw new RuntimeException("database.sql script can't load please check it.");
             }
 
@@ -75,8 +77,9 @@ public class DataSourceFactory {
 
         // 将字符数组转换为字符串
         String sql = sb.toString();
-        try(Connection connection = getInstance().getConnection();
-        ) {
+
+        try (Connection connection = getInstance().getConnection();) {
+            // 建立索引
             if(buildIndex) {
                 try(PreparedStatement statement = connection.prepareStatement("drop table if exists thing;");) {
                     statement.executeUpdate();

@@ -14,6 +14,7 @@ import java.io.File;
  */
 
 public class FileIndexInterceptor implements FileInterceptor {
+
     private final FileIndexDao fileIndexDao;
 
     public FileIndexInterceptor(FileIndexDao fileIndexDao) {
@@ -23,9 +24,7 @@ public class FileIndexInterceptor implements FileInterceptor {
     //打印，转换，写入数据库
     @Override
     public void apply(File file) {
-
         Thing thing = FileConverThing.convert(file);
         this.fileIndexDao.insert(thing);
-
     }
 }

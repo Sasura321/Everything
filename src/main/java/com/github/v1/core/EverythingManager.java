@@ -16,13 +16,16 @@ import com.github.v1.core.monitor.Impl.FileMonitorImpl;
 import com.github.v1.core.search.ThingSearch;
 import com.github.v1.core.search.impl.ThingSearchImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.SimpleFormatter;
 
- /* EverythingManager：核心统一调度器
+/* EverythingManager：核心统一调度器
  * Author: zsm
  * Created: 2019/4/3
  */
@@ -89,10 +92,13 @@ public class EverythingManager {
         Handlerpath handlerpath = config.getHandlerpath();
         //handlerpath.getIncludePath();
 
+        // 索引包含的文件路径
         Set<String> includePaths = handlerpath.getIncludePath();
         new Thread(() -> {
+            // 建立索引开始
             System.out.println("Buid Index Started ...");
             final CountDownLatch countDownLatch = new CountDownLatch(includePaths.size());
+            // 遍历包含的文件路径
             for (String path: includePaths) {
                 executorService.submit(() -> {
                     fileScan.index(path);
@@ -105,6 +111,8 @@ public class EverythingManager {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            // 索引关闭
             System.out.println("Build Index Complete ...");
         }).start();
     }

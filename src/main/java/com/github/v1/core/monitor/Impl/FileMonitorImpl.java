@@ -12,12 +12,16 @@ import org.apache.commons.io.monitor.FileAlterationObserver;
 import java.io.File;
 import java.util.Set;
 
+/**
+ * 文件监控
+ */
 public class FileMonitorImpl extends FileAlterationListenerAdaptor implements FileMonitor {
 
-    private FileAlterationMonitor monitor;
+    private FileAlterationMonitor monitor; // 文件监控对象
 
-    private final FileIndexDao fileIndexDao;
+    private final FileIndexDao fileIndexDao; // 数据库索引
 
+    // 构造方法
     public FileMonitorImpl(FileIndexDao fileIndexDao) {
         this.fileIndexDao = fileIndexDao;
         this.monitor = new FileAlterationMonitor(
@@ -25,6 +29,9 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         );
     }
 
+    /**
+     * 启动文件监控
+     */
     @Override
     public void start() {
         //启动
@@ -35,13 +42,21 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         }
     }
 
+    /**
+     * 文件监控
+     * @param handlerpath
+     */
     @Override
     public void monitor(Handlerpath handlerpath) {
         //监控的目录
         Set<String> includePath =  handlerpath.getIncludePath();
+
+        // 文件路径遍历
         for (String path : includePath){
             FileAlterationObserver observer = new FileAlterationObserver(new File(path), pathname -> {
+                // 包含的文件路径
                 for (String exclude : handlerpath.getIncludePath()){
+                    // 若匹配要包含的文件路径
                     if (pathname.getAbsolutePath().startsWith(exclude)){
                         return false;
                     }
@@ -84,6 +99,9 @@ public class FileMonitorImpl extends FileAlterationListenerAdaptor implements Fi
         this.fileIndexDao.insert(FileConverThing.convert(file));
     }
 
+    /**
+     * 关闭文件监控
+     */
     @Override
     public void stop() {
         //停止

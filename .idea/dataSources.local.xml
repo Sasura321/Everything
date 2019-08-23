@@ -11,5 +11,11 @@
       <user-name>root</user-name>
       <introspection-schemas>*:myeverything</introspection-schemas>
     </data-source>
+    <data-source name="default@localhost" uuid="2416d3d7-f3c6-4672-afde-20fe4636fa1a">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>root</user-name>
+    </data-source>
   </component>
 </project>

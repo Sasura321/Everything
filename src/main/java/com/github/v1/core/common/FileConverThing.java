@@ -12,7 +12,14 @@ import java.io.File;
  */
 
 public class FileConverThing {
+
+    /**
+     * 文件对象转换Thing对象
+     * @param file 文件
+     * @return Thing对象
+     */
     public static Thing convert(File file){
+
         Thing thing = new Thing();
         String name = file.getName();
         thing.setName(name);
@@ -20,16 +27,22 @@ public class FileConverThing {
 
         int index = name.lastIndexOf(".");
         String extend = "*";
-        if (index != -1 && (index+1 < name.length())){
 
+        if (index != -1 && (index+1 < name.length())) {
             extend =  name.substring(index+1);
         }
+
         thing.setFileType(FileType.lookupByName(extend));
         thing.setDepth(computePathDepth("C:"));
 
         return thing;
     }
 
+    /**
+     * 计算文件路径的长度
+     * @param path
+     * @return
+     */
     private static int computePathDepth(String path){
         //计算路径长度
         int depth = 0;

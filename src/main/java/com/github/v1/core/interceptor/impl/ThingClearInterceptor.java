@@ -6,6 +6,11 @@ import com.github.v1.core.model.Thing;
 
 import java.util.Queue;
 
+/**
+ * 检索结果Thing的拦截器
+ * Author: zsm
+ * Created: 2019/4/3
+ */
 public class ThingClearInterceptor implements Runnable ,ThingInterceptor {
 
     private final FileIndexDao fileIndexDao;
@@ -29,7 +34,9 @@ public class ThingClearInterceptor implements Runnable ,ThingInterceptor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             Thing thing = this.thingQueue.poll();
+
             if (thing != null){
                 this.apply(thing);
             }

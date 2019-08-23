@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Set;
 
 /**
- * FileScanImpl：
+ * FileScanImpl：建立索引
  * Author: zsm
  * Created: 2019/4/3
  */
@@ -20,6 +20,10 @@ public class FileScanImpl implements FileScan {
 
     private EverythingConfig config = EverythingConfig.getInstance();
 
+    /**
+     * 将指定path路径下的所有文件和目录以及子目录和文件递归扫描索引到数据库
+     * @param path 文件路径
+     */
     @Override
     public void index(String path) {
         Set<String> excludePaths = config.getHandlerpath().getExcludePath();
@@ -46,6 +50,10 @@ public class FileScanImpl implements FileScan {
         }
     }
 
+    /**
+     * 文件扫描接口增加拦截器对象
+     * @param interceptor
+     */
     @Override
     public void interceptor(FileInterceptor interceptor) {
         this.interceptors.add(interceptor);

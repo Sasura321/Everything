@@ -28,16 +28,27 @@ public class Handlerpath {
 
     private Handlerpath(){}
 
+    /**
+     * 包含的目录路径
+     * @param path 路径
+     */
     public void addIncludePath(String path){
         this.includePath.add(path);
     }
 
+    /**
+     * 排除的目录路径
+     * @param path 路径
+     */
     public void addExcludePath(String path){
         this.excludePath.add(path);
     }
 
+    /**
+     * 处理构建索引时的文件路径
+     * @return
+     */
     public static Handlerpath getDefaultHandlerPath(){
-
         Handlerpath handlerpath = new Handlerpath();
         Iterable<Path> paths = FileSystems.getDefault().getRootDirectories();
 
@@ -48,19 +59,22 @@ public class Handlerpath {
 
         //默认要排除的目录，即构建索引时不需要处理的路径
         String systemName = System.getProperty("os.name");
-        if(systemName.contains("Windows")){
+
+        // windows 操作系统
+        if (systemName.contains("Windows")) {
             handlerpath.addExcludePath("C:\\Windows");
             handlerpath.addExcludePath("C:\\Program Files");
             handlerpath.addExcludePath("C:\\program Files(x86)");
             handlerpath.addExcludePath("C:\\ProgramData");
 
-        }else {
+        } else { // Linux操作系统
             handlerpath.addExcludePath("/root");
             handlerpath.addExcludePath("/temp");
 
         }
         return handlerpath;
     }
+
 //测试
 //    public static void main(String[] args) {
 //        System.out.println(Handlerpath.getDefaultHandlerPath());
